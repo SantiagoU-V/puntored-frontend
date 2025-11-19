@@ -1,73 +1,97 @@
-# React + TypeScript + Vite
+PuntoRed – Frontend de Recargas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web desarrollada en React + TypeScript + Vite, que permite consultar proveedores, realizar recargas y visualizar histórico de transacciones para la prueba tecnica frontend.
+Incluye autenticación, validaciones, manejo de reglas de negocio y persistencia local.
 
-Currently, two official plugins are available:
+Como ejecutarlo?
+Para clonar repositorio: 
+git clone https://github.com/tu-repo/puntored-frontend.git
+cd puntored-frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Instalar dependencias:
+npm install
 
-## React Compiler
+Ejecutar en local:
+npm run dev
+Ir en el navegador a: http://localhost:5173
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Arquitectura General
+src/
+ ├─ api/                  # Llamadas a los endpoints (auth, recargas, proveedores)
+ ├─ components/           # Componentes reutilizables (Escalable, pero no lo utilice)
+ ├─ contexts/             # AuthContext + almacenamiento de token
+ ├─ pages/                # Pantallas: Login, Proveedores, Recargas, Histórico
+ ├─ routes/               # Sistema de rutas protegidas y públicas
+ ├─ utils/                # Helpers: almacenamiento local, formateos
+ ├─ layouts/              # Sistema de LayoutPrivado para despues del login
+ ├─ validators/           # Reglas de negocio y validación
+ ├─ styles/               # Tailwind + estilos base
+ └─ main.tsx              # Entry point
 
-## Expanding the ESLint configuration
+ Librerias: 
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Librería                 | Uso                                      |
+| ------------------------ | ---------------------------------------- |
+| **React 19**             | Base del frontend                        |
+| **React Router DOM**     | Manejo de rutas públicas / privadas      |
+| **TypeScript**           | Tipado estático y mayor robustez         |
+| **TailwindCSS**          | Estilos rápidos y consistente con diseño |
+| **@tailwindcss/postcss** | Integración con Vite                     |
+| **Vite**                 | Bundler rápido y moderno                 |
+| **Vercel**               | Despliegue gratuito jeje                 |
+| **Axios**                | Cliente HTTP para consumir endpoints del backend |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+En un futuro se puede ampliar a: 
+| Librería                  | Uso                  |
+| ------------------------- | -------------------- |
+| **Vitest**                | Tests unitarios      |
+| **React Testing Library** | Tests de componentes |
+(No llegue a usarlos debido al tiempo pero si conozco del tema vitest para hacer test)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Decisiones Técnicas y Justificación:
+1. AuthContext para login y persistencia
+Se usó Context API para manejar el token globalmente y proteger rutas.
+Esto evita prop drilling y mantiene el estado de autenticación centralizado.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. Validaciones externas (validators/)
+Separar las validaciones del formulario evita duplicación y mejora mantenibilidad.
+Aquí se implementan reglas de negocio como:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+-Teléfono debe iniciar en "3" y tener 10 dígitos
+-Monto mínimo/máximo
+-Clave transaccional de 6 dígitos
+-Producto obligatorio
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. Persistencia en localStorage
+Permite:
+Mantener sesión iniciada
+Mantener proveedor seleccionado
+Guardar histórico de recargas
+Esto mejora UX sin depender del backend.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4. TailwindCSS
+Elección por:
+Velocidad de desarrollo
+Menos archivos CSS adicionales
+Failita componentes responsivos
+Muy buen performance en producción
+
+5. React + Vite
+Vite se selecciona por:
+Compilación muy rápida
+Hot Reload instantáneo
+Mejor rendimiento que CRA
+Soporte excelente para TS
+
+6. Arquitectura modular
+El código está dividido por feature, no por tipo de archivo, lo que facilita:
+Escalabilidad
+Reutilización
+Lectura limpia del proyecto
+
+Autor
+
+Santiago Usaquén
+Desarrollador Frontend / Backend / Cloud
+💬 Disponible para mejoras o ampliaciones del proyecto.
+
