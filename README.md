@@ -1,4 +1,5 @@
 PuntoRed – Frontend de Recargas
+Sitio desplegado en: https://puntored-frontend-blond.vercel.app/login
 
 Aplicación web desarrollada en React + TypeScript + Vite, que permite consultar proveedores, realizar recargas y visualizar histórico de transacciones para la prueba tecnica frontend.
 Incluye autenticación, validaciones, manejo de reglas de negocio y persistencia local.
