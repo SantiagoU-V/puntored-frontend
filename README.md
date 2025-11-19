@@ -94,5 +94,5 @@ Autor
 
 Santiago Usaquén
 Desarrollador Frontend / Backend / Cloud
-💬 Disponible para mejoras o ampliaciones del proyecto.
+Disponible para mejoras o ampliaciones del proyecto.
 
